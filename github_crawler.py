@@ -12,9 +12,10 @@ def main():
         todo = input('(1)Export file (2)Delete member (3)End    ')
         while todo is not '3':
             if todo is '1':
-                repos = org_repos(g)
+                repos = org_repos(g, account)
                 ex_file(repos)
             elif todo is '2':
+                repos = org_repos(g, account)
                 dodel = input('Delete member (account/n):')
                 while dodel is not 'N' and dodel is not 'n':
                     delete_member(g,repos,dodel)
@@ -23,16 +24,17 @@ def main():
     else:
         print(status)
 
-def org_repos(g):
+def org_repos(g, a):
 
     repos = []
 
     for repo in g.get_user().get_repos():
         for user in repo.get_contributors():
             ispublic = 'public'
-            if(repo.private):
+            if repo.private:
                 ispublic = 'private'
-            repos.append([repo.full_name, ispublic, user.login])
+            if repo.full_name.split('/')[0] == a:
+                repos.append([repo.name, ispublic, user.login])
 
     repos = pd.DataFrame(repos, columns=['Repo', 'Auth', 'User'])
 
