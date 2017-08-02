@@ -1,1 +1,4 @@
-# github_manager
+# github manager with pygithub
+
+--installation
+
