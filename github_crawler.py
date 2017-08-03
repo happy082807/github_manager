@@ -29,11 +29,11 @@ def org_repos(g, a):
     repos = []
 
     for repo in g.get_user().get_repos():
-        for user in repo.get_contributors():
-            ispublic = 'public'
-            if repo.private:
-                ispublic = 'private'
-            if repo.full_name.split('/')[0] == a:
+        if repo.full_name.split('/')[0] == a:
+            for user in repo.get_collaborators():
+                ispublic = 'public'
+                if repo.private:
+                    ispublic = 'private'
                 repos.append([repo.name, ispublic, user.login])
 
     repos = pd.DataFrame(repos, columns=['Repo', 'Auth', 'User'])
